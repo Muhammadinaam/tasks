@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-
+  
   constructor(private http: HttpClient, private router: Router) { }
 
   public login(username, password) {
@@ -25,11 +25,18 @@ export class AuthService {
         localStorage.setItem("access_token", data['access_token']);
         localStorage.setItem("token_expiry", (moment.now() / 1000 + +data['expires_in']).toString() );
         this.router.navigate(['/dashboard']);
+      }, error => {
+        alert(error.error.message);
       })
   }
 
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
+
   public getToken(): string {
-    return localStorage.getItem('token');
+    return localStorage.getItem('access_token');
   }
   
   public isAuthenticated() : boolean {

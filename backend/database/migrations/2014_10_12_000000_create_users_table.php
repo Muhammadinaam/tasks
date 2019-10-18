@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('is_super_admin');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -29,6 +30,7 @@ class CreateUsersTable extends Migration
                 'name' => 'Admin',
                 'email' => 'admin@admin.com',
                 'password' => Hash::make('123456'),
+                'is_super_admin' => 1
             ]);
     }
 

@@ -6,3 +6,11 @@
 
 // If you want to add something do it here
 @import "custom";
+
+.no-data-available {
+text-align: center;
+}
+
+.dataTables_empty {
+display: none;
+}

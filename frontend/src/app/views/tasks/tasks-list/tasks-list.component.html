@@ -1,9 +1,50 @@
 <div class="animated fadeIn">
     
     <div class="card">
-        <div class="card-header">Tasks</div>
+        <div class="card-header">
+            Tasks
+            <button class="btn btn-primary btn-sm float-right" (click)="addNewTask()">
+                <i class="fa fa-plus-circle"></i>
+                Add New Task
+            </button>
+        </div>
         <div class="card-body">
-            asdf
+            
+            <div class="table-responsive">
+                <table datatable [dtOptions]="dtOptions" style="width:100%" class="table row-border hover">
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Task Description</th>
+                            <th>Assigned To</th>
+                            <th>Assigned By</th>
+                            <th>Status</th>
+                            <th>Due Date <br> (YYYY-MM-DD - Time)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="data?.length != 0">
+                        <tr *ngFor="let row of data">
+                            <td>{{ row.project }}</td>
+                            <td>{{ row.task_description }}</td>
+                            <td>{{ row.assigned_to.name }}</td>
+                            <td>{{ row.assigned_by.name }}</td>
+                            <td>{{ row.task_status.name }}</td>
+                            <td>{{ row.due_date }}</td>
+                            <td>
+                                <button class="btn btn-info btn-sm" (click)="viewTask(row.id)">View</button>
+                                <button class="btn btn-danger btn-sm" (click)="deleteTask(row.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="persons?.length == 0">
+                        <tr>
+                        <td colspan="3" class="no-data-available">No data!</td>
+                        </tr>
+                    <tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 

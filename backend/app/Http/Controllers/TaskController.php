@@ -16,7 +16,8 @@ class TaskController extends Controller
 
     public function dataTable()
     {
-        $tasks = Task::with(['assignedTo', 'assignedBy', 'taskStatus']);
+        $tasks = Task::with(['assignedTo', 'assignedBy', 'taskStatus'])
+            ->select('tasks.*');
 
         if(Auth::user()->is_super_admin == 0) {
             $tasks = $tasks

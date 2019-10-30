@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTableTasks extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,10 @@ class AddTableTasks extends Migration
      */
     public function up()
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->bigIncrements('id');
-            
-            $table->string('task_description');
-            $table->datetime('due_date');
-            $table->bigInteger('assigned_to');
-            $table->bigInteger('assigned_by');
-            $table->integer('task_status_id');
-
+            $table->string('name');
+            $table->integer('level');
             $table->timestamps();
         });
     }
@@ -33,6 +28,6 @@ class AddTableTasks extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('roles');
     }
 }

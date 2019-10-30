@@ -4,6 +4,7 @@ import { DataTablesResponse } from '../../../classes/DataTablesResponse';
 import { HttpClient } from '@angular/common/http';
 import { ServerInfo } from '../../../classes/ServerInfo';
 import { Router } from '@angular/router';
+import { DataTableHelper } from '../../../classes/DataTableHelper';
 
 @Component({
   selector: 'app-tasks-list',
@@ -14,43 +15,21 @@ export class TasksListComponent implements OnInit {
 
   dtOptions: DataTables.Settings = {};
   data;
+  dataTableUrl = "/api/tasks-datatable";
+  tableColumns = [
+    { title: 'Task Description', data: 'task_description', name: 'task_description' },
+    { title: 'Assigned To', data: 'assigned_to.name', name: 'assignedTo.name' },
+    { title: 'Assigned By', data: 'assigned_by.name', name: 'assignedBy.name' },
+    { title: 'Status', data: 'task_status.name', name: 'taskStatus.name' },
+    { title: 'Due Date <br> (YYYY-MM-DD - Time)', data: 'due_date', name: 'due_date' },
+  ];
 
   constructor(private http: HttpClient, 
     private tasksService: TasksService,
     private router: Router) { }
 
   ngOnInit() {
-    const that = this;
-
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 2,
-      serverSide: true,
-      processing: true,
-      ajax: (dataTablesParameters: any, callback) => {
-        that.http
-          .post<DataTablesResponse>(
-            ServerInfo.Url + "/api/tasks-datatable",
-            dataTablesParameters, {}
-          ).subscribe(resp => {
-            that.data = resp.data;
-
-            callback({
-              recordsTotal: resp.recordsTotal,
-              recordsFiltered: resp.recordsFiltered,
-              data: []
-            });
-          });
-      },
-      columns: [
-        { data: 'project', name: 'project' }, 
-        { data: 'task_description', name: 'task_description' },
-        { data: 'assigned_to.name', name: 'assignedTo.name' },
-        { data: 'assigned_by.name', name: 'assignedBy.name' },
-        { data: 'task_status.name', name: 'taskStatus.name' },
-        { data: 'due_date', name: 'due_date' }, 
-      ]
-    };
+    this.dtOptions = DataTableHelper.generateDataTableOptions(this, this.dataTableUrl, this.tableColumns);
   }
 
   viewTask(taskId) {

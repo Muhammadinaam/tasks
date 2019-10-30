@@ -40,5 +40,21 @@ export const navItems: NavData[] = [
     url: '/tasks',
     icon: 'cui-task'
   },
+  {
+    name: 'Settings',
+    icon: 'cui-settings',
+    children: [
+      {
+        name: 'Users',
+        url: '/users',
+        icon: 'cui-user',
+      },
+      {
+        name: 'Roles',
+        url: '/roles',
+        icon: 'cui-user'
+      },
+    ]
+  },
   
 ];

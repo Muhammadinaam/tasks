@@ -14,18 +14,12 @@
                 <table datatable [dtOptions]="dtOptions" style="width:100%" class="table row-border hover">
                     <thead>
                         <tr>
-                            <th>Project</th>
-                            <th>Task Description</th>
-                            <th>Assigned To</th>
-                            <th>Assigned By</th>
-                            <th>Status</th>
-                            <th>Due Date <br> (YYYY-MM-DD - Time)</th>
+                            <th *ngFor="let column of tableColumns">{{column.title}}</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody *ngIf="data?.length != 0">
                         <tr *ngFor="let row of data">
-                            <td>{{ row.project }}</td>
                             <td>{{ row.task_description }}</td>
                             <td>{{ row.assigned_to.name }}</td>
                             <td>{{ row.assigned_by.name }}</td>
@@ -37,9 +31,9 @@
                             </td>
                         </tr>
                     </tbody>
-                    <tbody *ngIf="persons?.length == 0">
+                    <tbody *ngIf="data?.length == 0">
                         <tr>
-                        <td colspan="3" class="no-data-available">No data!</td>
+                        <td colspan="6" class="no-data-available">No data!</td>
                         </tr>
                     <tbody>
                 </table>

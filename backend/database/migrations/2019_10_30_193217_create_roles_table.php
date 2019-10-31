@@ -17,7 +17,8 @@ class CreateRolesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('level');
-            $table->timestamps();
+            
+            CommonMigrations::five($table);
         });
     }
 

@@ -2,6 +2,13 @@
 
 class CommonMigrations
 {
+    public static function five($table)
+    {
+        $table->boolean('status')->default(true)->nullable();
+        $table->bigInteger('created_by')->nullable();
+        $table->bigInteger('updated_by')->nullable();
+        $table->timestamps();
+    }
 
     public static function insertEntityPermissions($title, $slug, $plural_s_es) 
     {

@@ -22,7 +22,7 @@ class AddTableTasks extends Migration
             $table->bigInteger('assigned_by');
             $table->integer('task_status_id');
 
-            $table->timestamps();
+            CommonMigrations::five($table);
         });
     }
 

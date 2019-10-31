@@ -73,6 +73,14 @@ export const routes: Routes = [
         loadChildren: () => import('./views/tasks/tasks.module').then(m => m.TasksModule)
       },
       {
+        path: 'roles',
+        loadChildren: () => import('./views/roles/roles.module').then(m => m.RolesModule)
+      },
+      {
+        path: 'users',
+        loadChildren: () => import('./views/users/users.module').then(m => m.UsersModule)
+      },
+      {
         path: 'icons',
         loadChildren: () => import('./views/icons/icons.module').then(m => m.IconsModule)
       },

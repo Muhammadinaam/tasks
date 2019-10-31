@@ -22,4 +22,7 @@ Route::middleware('auth:api')->group(function(){
     Route::resource('tasks', 'TaskController');
     Route::post('tasks-datatable', 'TaskController@dataTable');
 
+    Route::resource('roles', 'RoleController');
+    Route::post('roles-datatable', 'RoleController@dataTable');
+
 });

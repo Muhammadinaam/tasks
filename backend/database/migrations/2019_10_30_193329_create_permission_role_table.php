@@ -17,7 +17,8 @@ class CreatePermissionRoleTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('role_id');
             $table->bigInteger('permission_id');
-            $table->timestamps();
+            
+            CommonMigrations::five($table);
         });
     }
 

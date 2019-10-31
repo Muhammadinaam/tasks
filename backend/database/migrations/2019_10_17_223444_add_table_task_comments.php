@@ -23,7 +23,8 @@ class AddTableTaskComments extends Migration
             $table->boolean('has_been_read')->default(false);
             $table->bigInteger('deleted_by')->nullable();
             
-            $table->timestamps();
+            
+            CommonMigrations::five($table);
         });
     }
 

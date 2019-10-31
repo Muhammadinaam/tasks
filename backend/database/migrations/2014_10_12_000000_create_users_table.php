@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->boolean('is_super_admin');
             $table->rememberToken();
-            $table->timestamps();
+            CommonMigrations::five($table);
         });
 
         DB::table('users')

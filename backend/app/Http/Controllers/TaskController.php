@@ -7,7 +7,7 @@ use DataTables;
 use App\Task;
 use Auth;
 
-class TaskController extends Controller
+class TaskController extends CommonController
 {
     public function index()
     {

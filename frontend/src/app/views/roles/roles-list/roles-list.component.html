@@ -1,0 +1,43 @@
+<div class="animated fadeIn">
+    
+        <div class="card">
+            <div class="card-header">
+                Roles
+                <button class="btn btn-primary btn-sm float-right" (click)="addNew()">
+                    <i class="fa fa-plus-circle"></i>
+                    Add New Role
+                </button>
+            </div>
+            <div class="card-body">
+                
+                <div class="table-responsive">
+                    <table datatable [dtOptions]="dtOptions" style="width:100%" class="table row-border hover">
+                        <thead>
+                            <tr>
+                                <th *ngFor="let column of tableColumns">{{column.title}}</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="data?.length != 0">
+                            <tr *ngFor="let row of data">
+                                <td>{{ row.name }}</td>
+                                <td>{{ row.level }}</td>
+                                <td>
+                                    <button class="btn btn-info btn-sm" (click)="edit(row.id)">Edit</button>
+                                    <button class="btn btn-danger btn-sm" (click)="delete(row.id)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="data?.length == 0">
+                            <tr>
+                            <td colspan="6" class="no-data-available">No data!</td>
+                            </tr>
+                        <tbody>
+                    </table>
+                </div>
+    
+            </div>
+        </div>
+    
+    </div>
+    

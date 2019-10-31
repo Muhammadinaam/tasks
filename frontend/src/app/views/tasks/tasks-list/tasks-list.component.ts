@@ -17,11 +17,8 @@ export class TasksListComponent implements OnInit {
   data;
   dataTableUrl = "/api/tasks-datatable";
   tableColumns = [
-    { title: 'Task Description', data: 'task_description', name: 'task_description' },
-    { title: 'Assigned To', data: 'assigned_to.name', name: 'assignedTo.name' },
-    { title: 'Assigned By', data: 'assigned_by.name', name: 'assignedBy.name' },
-    { title: 'Status', data: 'task_status.name', name: 'taskStatus.name' },
-    { title: 'Due Date <br> (YYYY-MM-DD - Time)', data: 'due_date', name: 'due_date' },
+    { title: 'Role Name', data: 'task_description', name: 'task_description' },
+    { title: 'Role Level', data: 'assigned_to.name', name: 'assignedTo.name' },
   ];
 
   constructor(private http: HttpClient, 

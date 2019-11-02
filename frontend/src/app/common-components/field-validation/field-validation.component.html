@@ -1,0 +1,13 @@
+<div *ngIf="control.errors && (control.dirty || control.touched)">
+    <div *ngIf="control.errors.required" class="text-danger">This field is required</div>
+    
+    <div *ngIf="control.errors.email" class="text-danger">This field should be valid email</div>
+    
+    <div *ngIf="control.errors.minlength" class="text-danger">
+        Minimum length of this field is {{formGroupToValidate.controls[controlName].errors.minlength.requiredLength}}
+    </div>
+    
+    <div *ngIf="control.errors.maxlength" class="text-danger">
+        Maximum length of this field is {{formGroupToValidate.controls[controlName].errors.maxlength.requiredLength}}
+    </div>
+</div>

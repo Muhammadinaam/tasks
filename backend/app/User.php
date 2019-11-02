@@ -37,4 +37,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function role()
+    {
+        return $this->belongsTo('\App\Role');
+    }
+
+    public function hasPermission($idt)
+    {
+        if($this->is_super_admin == 1)
+        {
+            return true;
+        }
+
+        $permission = $this->role->permissions()->where('idt', $idt)->first();
+        return $permission != null;
+    }
+
+    public function abortIfDontHavePermission($idt)
+    {
+        if(!$this->hasPermission($idt))
+        {
+            abort(403, 'You do not have permission to perform this operation');
+        }
+    }
 }

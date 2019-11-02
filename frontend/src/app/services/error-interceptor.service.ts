@@ -20,6 +20,16 @@ export class ErrorInterceptorService implements HttpInterceptor {
         if (error.status === 401) {
           this.auth.logout();
           return throwError(error);
+        } else if(error.status === 422) {
+          console.log(error);
+          let message = error.error.message;
+          Object.keys(error.error['errors']).forEach(errorKey => {
+            error.error['errors'][errorKey].forEach(errorMessage => {
+              message += ' ' + errorMessage;
+            });
+          });
+          alert(message);
+          return throwError(error);
         } else {
           alert(error.error.message);
           return throwError(error);

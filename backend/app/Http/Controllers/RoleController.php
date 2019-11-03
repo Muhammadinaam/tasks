@@ -52,7 +52,7 @@ class RoleController extends CommonController
             abort(403, 'You are not allowed to edit this role');
         }
 
-        parent::edit($id);
+        return parent::edit($id);
     }
 
     public function updateData($id)

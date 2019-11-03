@@ -62,15 +62,19 @@ class RoleController extends CommonController
         $role->level = request()->level;
         $role->save();
 
-        $role->permissions()->detach();
+        $new_permissions = [];
         foreach(request()->permissions as $idt => $value)
         {
             if($value == 1 || $value == true || $value == 'true')
             {
-                $permission = Permission::where('idt', $idt)->first();
-                $role->permissions()->attach( $permission->id );
+                if(Auth::user()->hasPermission($idt))
+                {
+                    $permission = Permission::where('idt', $idt)->first();
+                    $new_permissions[] = $permission->id;
+                }
             }
         }
+        $role->permissions()->sync( $new_permissions );
 
         return $role->id;
     }

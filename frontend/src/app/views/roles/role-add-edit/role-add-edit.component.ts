@@ -37,7 +37,9 @@ export class RoleAddEditComponent extends CommonAddEdit {
 
         Object.keys(this.allPermissions).forEach(permissionGroup => {
           this.allPermissions[permissionGroup].forEach(permission => {
-            (<FormGroup>this.mainForm.get('permissions')).addControl( permission['idt'], this.fb.control('') );
+            let findPermission = (<Array<any>>this.currentUser.role.permissions).find(item => item.idt == permission['idt']);
+            (<FormGroup>this.mainForm.get('permissions'))
+              .addControl( permission['idt'], this.fb.control({value: '', disabled: findPermission == null}) );
           });
         });
       });

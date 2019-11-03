@@ -28,6 +28,12 @@ export class CommonAddEdit implements OnInit
 
     async ngOnInit() {
         this.loading = true;
+
+        this.currentUser = this.auth.currentUser;
+        if(this.currentUser == null) {
+            this.currentUser = await this.auth.getCurrentUser();
+        }
+
         await this.initMainForm();
 
         this.editingId = this.activatedRoute.snapshot.paramMap.get('id');
@@ -42,12 +48,6 @@ export class CommonAddEdit implements OnInit
 
                 this.patchFormValues(data);
             })
-        }
-
-        this.currentUser = this.auth.currentUser;
-
-        if(this.currentUser == null) {
-            this.currentUser = await this.auth.getCurrentUser();
         }
 
         this.loading = false;

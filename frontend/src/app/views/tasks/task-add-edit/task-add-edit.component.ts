@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ServerInfo } from '../../../classes/ServerInfo';
 import * as moment from 'moment';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-task-add-edit',
@@ -20,13 +21,15 @@ export class TaskAddEditComponent extends CommonAddEdit {
     public fb: FormBuilder, 
     public http: HttpClient, 
     public router: Router,
-    public activatedRoute: ActivatedRoute) { 
-      super(http, router, activatedRoute, 'tasks');
+    public activatedRoute: ActivatedRoute,
+    public auth: AuthService) { 
+      super(http, router, activatedRoute, 'tasks', auth);
     }
 
   async initMainForm() {
     this.mainForm = this.fb.group({
-      task_description: ['', Validators.compose( [Validators.required] )],
+      task_title: ['', Validators.compose( [Validators.required, Validators.maxLength(50)] )],
+      task_description: ['', Validators.compose( [Validators.maxLength(190)] )],
       due_date: ['', Validators.compose( [Validators.required] )],
       assigned_to: ['', Validators.compose( [Validators.required] )]
     });
@@ -38,10 +41,11 @@ export class TaskAddEditComponent extends CommonAddEdit {
   }
 
   patchFormValues(data) {
-    console.log(moment(data['due_date']));
     this.mainForm.patchValue({
+      task_title: data['task_title'],
       task_description: data['task_description'],
-      due_date: moment(data['due_date']),
+      due_date: moment(data['due_date'] + ' UTC').toDate(),
+      //due_date: new Date(data['due_date']),
       assigned_to: [data['assigned_to']+""],
     });
   }

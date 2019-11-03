@@ -4,6 +4,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ServerInfo } from '../../../classes/ServerInfo';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-user-add-edit',
@@ -13,14 +14,15 @@ import { ServerInfo } from '../../../classes/ServerInfo';
 export class UserAddEditComponent extends CommonAddEdit {
 
   allPermissions:any = [];
-  allRoles:Array<any> = [];
+  allowedRoles:Array<any> = [];
 
   constructor(
     public fb: FormBuilder, 
     public http: HttpClient, 
     public router: Router,
-    public activatedRoute: ActivatedRoute) { 
-      super(http, router, activatedRoute, 'users');
+    public activatedRoute: ActivatedRoute,
+    public auth: AuthService) { 
+      super(http, router, activatedRoute, 'users', auth);
     }
 
   async initMainForm() {
@@ -34,9 +36,9 @@ export class UserAddEditComponent extends CommonAddEdit {
       role_id: ['']
     });
 
-    await this.http.get(ServerInfo.Url + "/api/roles").toPromise()
+    await this.http.get(ServerInfo.Url + "/api/allowed-roles").toPromise()
       .then(data => {
-        this.allRoles = <Array<any>>data;
+        this.allowedRoles = <Array<any>>data;
       });
   }
 
@@ -49,6 +51,22 @@ export class UserAddEditComponent extends CommonAddEdit {
         is_activated: data['is_activated'],
         role_id: data['role_id'],
     });
+  }
+
+  onSubmit() {
+    if(this.isFormValid()) {
+      super.onSubmit();
+    }
+  }
+
+  isFormValid() {
+
+    if(!this.mainForm.get('is_super_admin').value && this.mainForm.get('role_id').value == null) {
+      alert('Please select Role');
+      return false;
+    }
+
+    return true;
   }
 
 }

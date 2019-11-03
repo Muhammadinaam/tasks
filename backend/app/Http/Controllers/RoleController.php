@@ -11,7 +11,7 @@ use Auth;
 class RoleController extends CommonController
 {
     public function __construct() {
-        parent::__construct('role', '\App\Role', 'permissions');
+        parent::__construct('role', '\App\Role', ['users', 'permissions'], ['users']);
     }
 
     public function index()
@@ -46,6 +46,12 @@ class RoleController extends CommonController
 
     public function updateData($id)
     {
+        $allowedRolesIds = Role::allowedRolesIds();
+
+        if(!in_array($id, $allowedRolesIds->toArray())) {
+            abort(403, 'You are not allowed to edit this role');
+        }
+
         $this->saveData($id);
     }
 
@@ -67,5 +73,11 @@ class RoleController extends CommonController
         }
 
         return $role->id;
+    }
+
+    public function getAllowedRoles()
+    {
+        $allowedRolesIds = Role::allowedRolesIds();
+        return Role::whereIn('id', $allowedRolesIds)->get();
     }
 }

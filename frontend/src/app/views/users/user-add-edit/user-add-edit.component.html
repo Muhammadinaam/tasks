@@ -44,7 +44,7 @@
             <div *ngIf="mainForm.get('is_super_admin').value != true" class="form-group">
               <label for="">Role</label>
               <select class="form-control" formControlName="role_id">
-                <option *ngFor="let role of allRoles" value="{{role.id}}">{{role.name}}</option>
+                <option *ngFor="let role of allowedRoles" value="{{role.id}}">{{role.name}}</option>
               </select>
             </div>
 

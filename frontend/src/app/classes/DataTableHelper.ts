@@ -8,7 +8,7 @@ export class DataTableHelper
     public static generateDataTableOptions(obj: any, dataTableUrl: string, tableColumns: { data: string; name: string; }[]): DataTables.Settings {
         return {
           pagingType: 'full_numbers',
-          pageLength: 2,
+          pageLength: 10,
           serverSide: true,
           processing: true,
           ajax: (dataTablesParameters: any, callback) => {

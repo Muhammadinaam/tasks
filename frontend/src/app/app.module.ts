@@ -10,6 +10,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LOCALE_ID } from '@angular/core';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -75,17 +76,18 @@ import { ErrorInterceptorService } from './services/error-interceptor.service';
     RegisterComponent
   ],
   providers: [{
-    provide: LocationStrategy,
-    useClass: HashLocationStrategy,
-  }, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: AuthInterceptorService,
-    multi: true
-  }, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: ErrorInterceptorService,
-    multi: true
-  }],
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy,
+    }, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    }, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptorService,
+      multi: true
+    },
+  ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

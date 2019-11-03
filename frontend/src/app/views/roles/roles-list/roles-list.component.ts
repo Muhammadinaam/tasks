@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { DataTableHelper } from '../../../classes/DataTableHelper';
 import { ServerInfo } from '../../../classes/ServerInfo';
 import { CommonList } from '../../../classes/CommonList';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-roles-list',
@@ -14,7 +15,7 @@ import { CommonList } from '../../../classes/CommonList';
 export class RolesListComponent extends CommonList {
 
   constructor(public http: HttpClient,
-    public router: Router) { 
+    public router: Router, public auth: AuthService) { 
       super(
         http, 
         router, 
@@ -22,6 +23,7 @@ export class RolesListComponent extends CommonList {
         [
           { title: 'Role Name', data: 'name', name: 'name' },
           { title: 'Role Level', data: 'level', name: 'level' },
-        ]);
-    }
+        ],
+        auth);
+  }
 }

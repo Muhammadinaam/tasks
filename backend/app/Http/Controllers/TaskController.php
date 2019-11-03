@@ -10,7 +10,7 @@ use Auth;
 class TaskController extends CommonController
 {
     public function __construct() {
-        parent::__construct('task', '\App\Task', []);
+        parent::__construct('task', '\App\Task', ['assignedTo', 'assignedBy', 'taskStatus'], []);
     }
 
     public function dataTable()
@@ -58,6 +58,7 @@ class TaskController extends CommonController
                 $task->assigned_by = Auth::user()->id;
                 $task->task_status_id = \App\TaskStatus::where('idt', 'assigned')->first()->id;
             }
+            $task->task_title = request()->task_title;
             $task->task_description = request()->task_description;
             $task->due_date = \Carbon\Carbon::parse(request()->due_date)->format('Y-m-d H:i:s');
             $task->assigned_to = $assigned_to;

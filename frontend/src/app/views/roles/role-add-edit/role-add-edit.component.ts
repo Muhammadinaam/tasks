@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ServerInfo } from '../../../classes/ServerInfo';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonAddEdit } from '../../../classes/CommonAddEdit';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-role-add-edit',
@@ -18,8 +19,9 @@ export class RoleAddEditComponent extends CommonAddEdit {
     public fb: FormBuilder, 
     public http: HttpClient, 
     public router: Router,
-    public activatedRoute: ActivatedRoute) { 
-      super(http, router, activatedRoute, 'roles');
+    public activatedRoute: ActivatedRoute, 
+    public auth: AuthService) { 
+      super(http, router, activatedRoute, 'roles', auth);
     }
 
   async initMainForm() {

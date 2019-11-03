@@ -23,14 +23,16 @@
                                 <td>{{ row.name }}</td>
                                 <td>{{ row.level }}</td>
                                 <td>
-                                    <button class="btn btn-info btn-sm" (click)="edit(row.id)">Edit</button>
-                                    <button class="btn btn-danger btn-sm" (click)="delete(row.id)">Delete</button>
+                                    <div *ngIf="currentUser && ( currentUser.is_super_admin == 1 || currentUser.role.level >= row.level )">
+                                        <button class="btn btn-info btn-sm" (click)="edit(row.id)">Edit</button>
+                                        <button class="btn btn-danger btn-sm" (click)="delete(row.id)">Delete</button>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
                         <tbody *ngIf="data?.length == 0">
                             <tr>
-                            <td colspan="6" class="no-data-available">No data!</td>
+                            <td colspan="100" class="no-data-available">No data!</td>
                             </tr>
                         <tbody>
                     </table>

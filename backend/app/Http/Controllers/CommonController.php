@@ -11,11 +11,13 @@ class CommonController extends Controller
     private $permission_slug = '';
     private $model = '';
     private $relations = [];
+    private $relations_affected_by_deletion;
 
-    public function __construct($_permission_slug, $_model, $_relations) {
+    public function __construct($_permission_slug, $_model, $_relations, $_relations_affected_by_deletion) {
         $this->permission_slug = $_permission_slug;
         $this->model = $_model;
         $this->relations = $_relations;
+        $this->relations_affected_by_deletion = $_relations_affected_by_deletion;
     }
 
     public function store()
@@ -54,6 +56,20 @@ class CommonController extends Controller
     public function destroy($id)
     {
         Auth::user()->abortIfDontHavePermission('delete_' . $this->permission_slug);
+
+        // check relations
+        foreach($this->relations_affected_by_deletion as $relation)
+        {
+            $count = $this->model::find($id)->{$relation}()->get()->count();
+            if($count > 0) 
+            {
+                return [
+                    'success' => false, 
+                    'message' => 'Cannot delete because this item has been attached with ' . $count . ' ' . $relation,
+                ];
+            }
+        }
+
         $this->model::destroy($id);
         return ['success' => true, 'message' => 'Deleted successfully'];
     }

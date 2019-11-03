@@ -43,6 +43,16 @@ class User extends Authenticatable
         return $this->belongsTo('\App\Role');
     }
 
+    public function tasksAssignedToThisUser()
+    {
+        return $this->hasMany('\App\Task', 'assigned_to');
+    }
+
+    public function tasksAssignedByThisUser()
+    {
+        return $this->hasMany('\App\User', 'assigned_by');
+    }
+
     public function hasPermission($idt)
     {
         if($this->is_super_admin == 1)

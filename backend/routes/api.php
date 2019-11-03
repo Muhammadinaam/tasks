@@ -25,10 +25,13 @@ Route::middleware('auth:api')->group(function(){
     Route::resource('roles', 'RoleController');
     Route::post('roles-datatable', 'RoleController@dataTable');
     Route::get('get-all-permissions', 'RoleController@getAllPermissions');
+    Route::get('allowed-roles', 'RoleController@getAllowedRoles');
 
     Route::resource('users', 'UserController');
     Route::post('users-datatable', 'UserController@dataTable');
     Route::get('get-activated-users', 'UserController@getActivatedUsers');
+    Route::get('get-current-user', 'UserController@getCurrentUser');
 
     Route::get('dashboard-tasks', 'DashboardController@dashboardTasks');
+
 });

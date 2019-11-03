@@ -1,4 +1,4 @@
-import { Component, OnDestroy, Inject } from '@angular/core';
+import { Component, OnDestroy, Inject, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { navItems } from '../../_nav';
 import { AuthService } from '../../services/auth.service';
@@ -8,11 +8,12 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html'
 })
-export class DefaultLayoutComponent implements OnDestroy {
+export class DefaultLayoutComponent implements OnDestroy, OnInit {
   public navItems = navItems;
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
+  currentUser: any;
   constructor(private auth: AuthService, @Inject(DOCUMENT) _document?: any) {
 
     this.changes = new MutationObserver((mutations) => {
@@ -27,6 +28,14 @@ export class DefaultLayoutComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.changes.disconnect();
+  }
+
+  async ngOnInit() {
+    this.currentUser = this.auth.currentUser;
+
+    if(this.currentUser == null) {
+      this.currentUser = await this.auth.getCurrentUser();
+    }
   }
 
   logout() {

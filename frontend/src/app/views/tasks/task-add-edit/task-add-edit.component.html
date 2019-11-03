@@ -7,34 +7,43 @@
         
         <!-- {{ mainForm.value | json }} -->
         <form [formGroup]="mainForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <label for="">Task Description</label>
-                <input type="text" class="form-control" formControlName="task_description" >
-                <app-field-validation [formGroupToValidate]="mainForm" controlName="task_description"></app-field-validation>
-            </div>
 
-            <label for="">Due Date / Time</label>
-            <div class="input-group mb-3">
-                <div class="form-control">{{mainForm.get('due_date').value}}</div>
-                <div class="input-group-append">
-                  <span [owlDateTimeTrigger]="dt1" class="input-group-text" id="basic-addon2">
-                      <i class="fa fa-calendar"></i>
-                  </span>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Task title</label>
+                        <input type="text" class="form-control" maxlength="50" formControlName="task_title" >
+                        <app-field-validation [formGroupToValidate]="mainForm" controlName="task_description"></app-field-validation>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="">Task Description</label>
+                        <textarea class="form-control" rows="4" formControlName="task_description"></textarea>
+                        <app-field-validation [formGroupToValidate]="mainForm" controlName="task_description"></app-field-validation>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Assigned To</label>
+                        <select class="form-control" formControlName="assigned_to" multiple>
+                            <option *ngFor="let user of activatedUsers" value="{{user.id}}">{{user.name}}</option>
+                        </select>
+                        <app-field-validation [formGroupToValidate]="mainForm" controlName="assigned_to"></app-field-validation>
+                    </div>
                 </div>
-              </div>
 
-            <div class="form-group" style="height: 0px; overflow: hidden;">
-                <input [owlDateTime]="dt1" class="form-control" formControlName="due_date" >
-                <owl-date-time #dt1></owl-date-time>
-                <app-field-validation [formGroupToValidate]="mainForm" controlName="due_date"></app-field-validation>
-            </div>
-
-            <div class="form-group">
-                <label for="">Assigned To</label>
-                <select class="form-control" formControlName="assigned_to" multiple>
-                    <option *ngFor="let user of activatedUsers" value="{{user.id}}">{{user.name}}</option>
-                </select>
-                <app-field-validation [formGroupToValidate]="mainForm" controlName="assigned_to"></app-field-validation>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Due Date</label><br>
+                        <p-calendar [inline]="true" #calendar [inputStyle]="{'width':'100%'}" inputStyleClass="form-control" formControlName="due_date" showTime="true" hourFormat="12">
+                            <!-- <p-footer>
+                                <button type="button" class="btn btn-primary btn-sm btn-block" (click)="calendar.hideOverlay()">
+                                    Close
+                                </button>
+                            </p-footer> -->
+                        </p-calendar>
+                        <app-field-validation [formGroupToValidate]="mainForm" controlName="task_description"></app-field-validation>
+                    </div>
+                </div>
             </div>
 
             <div class="text-right">

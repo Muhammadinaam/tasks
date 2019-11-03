@@ -4,6 +4,7 @@ import { FieldValidationComponent } from './field-validation/field-validation.co
 import { DataTablesModule } from 'angular-datatables';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import {CalendarModule} from 'primeng/calendar';
 
 @NgModule({
   declarations: [FieldValidationComponent],
@@ -13,7 +14,8 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     ReactiveFormsModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    FormsModule
+    FormsModule,
+    CalendarModule
   ],
   exports: [
     FieldValidationComponent,
@@ -21,7 +23,8 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     ReactiveFormsModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    FormsModule
+    FormsModule,
+    CalendarModule
   ]
 })
 export class CommonComponentsModule { }

@@ -11,12 +11,15 @@ export class CommonAddEdit implements OnInit
     router: any;
     activatedRoute: any;
     url:string;
+    auth: any;
+    currentUser: any;
     
-    constructor(_http, _router, _activatedRoute, _url) {
+    constructor(_http, _router, _activatedRoute, _url, _auth) {
         this.http = _http;
         this.router = _router;
         this.activatedRoute = _activatedRoute;
         this.url = _url;
+        this.auth = _auth;
     }
 
     async initMainForm() {
@@ -31,8 +34,20 @@ export class CommonAddEdit implements OnInit
         if(this.editingId != null && this.editingId != '') {
             await this.http.get(ServerInfo.Url + '/api/'+this.url+'/'+this.editingId+'/edit').toPromise()
             .then(data => {
+
+                if(data == null) {
+                    alert('No data found');
+                    this.router.navigate(['/' + this.url]);        
+                }
+
                 this.patchFormValues(data);
             })
+        }
+
+        this.currentUser = this.auth.currentUser;
+
+        if(this.currentUser == null) {
+            this.currentUser = await this.auth.getCurrentUser();
         }
 
         this.loading = false;

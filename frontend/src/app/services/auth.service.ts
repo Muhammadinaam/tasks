@@ -8,10 +8,11 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
+  currentUser: Object;
   
   constructor(private http: HttpClient, private router: Router) { }
 
-  public login(username, password) {
+  public async login(username, password) {
     let data = {
       'grant_type': 'password',
       'client_id': ServerInfo.clientId,
@@ -20,14 +21,31 @@ export class AuthService {
       'password': password,
       'scope': '',
     };
-    this.http.post(ServerInfo.Url + "/oauth/token", data)
-      .subscribe(data => {
+
+    await this.http.post(ServerInfo.Url + "/oauth/token", data).toPromise()
+      .then(data => {
         localStorage.setItem("access_token", data['access_token']);
         localStorage.setItem("token_expiry", (moment.now() / 1000 + +data['expires_in']).toString() );
-        this.router.navigate(['/dashboard']);
-      }, error => {
+        
+      }).catch(error => {
         alert(error.error.message);
+      });
+
+    await this.http.get( ServerInfo.Url + '/api/get-current-user').toPromise()
+      .then(data => {
+        this.currentUser = data;
       })
+
+    this.router.navigate(['/dashboard']);
+  }
+
+  public async getCurrentUser() {
+    await this.http.get( ServerInfo.Url + '/api/get-current-user').toPromise()
+      .then(data => {
+        this.currentUser = data;
+      });
+
+    return this.currentUser;
   }
 
   logout() {

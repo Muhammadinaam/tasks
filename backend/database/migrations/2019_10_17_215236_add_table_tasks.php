@@ -16,7 +16,8 @@ class AddTableTasks extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->bigIncrements('id');
             
-            $table->string('task_description');
+            $table->string('task_title');
+            $table->string('task_description')->nullable();
             $table->datetime('due_date');
             $table->bigInteger('assigned_to');
             $table->bigInteger('assigned_by');

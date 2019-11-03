@@ -6,6 +6,7 @@ import { ServerInfo } from '../../../classes/ServerInfo';
 import { Router } from '@angular/router';
 import { DataTableHelper } from '../../../classes/DataTableHelper';
 import { CommonList } from '../../../classes/CommonList';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-tasks-list',
@@ -15,7 +16,7 @@ import { CommonList } from '../../../classes/CommonList';
 export class TasksListComponent extends CommonList {
 
   constructor(public http: HttpClient,
-    public router: Router) { 
+    public router: Router, public auth: AuthService) { 
       super(
         http, 
         router, 
@@ -26,6 +27,6 @@ export class TasksListComponent extends CommonList {
           { title: 'Assigned To', data: 'assigned_to.name', name: 'assignedTo.name' },
           { title: 'Assigned By', data: 'assigned_by.name', name: 'assignedBy.name' },
           { title: 'Task Status', data: 'task_status.name', name: 'taskStatus.name' },
-        ]);
+        ], auth);
     }
 }

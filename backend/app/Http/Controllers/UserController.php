@@ -11,7 +11,11 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends CommonController
 {
     public function __construct() {
-        parent::__construct('user', '\App\User', 'role');
+        parent::__construct(
+            'user', 
+            '\App\User', 
+            ['role'], 
+            ['tasksAssignedToThisUser', 'tasksAssignedByThisUser']);
     }
 
     public function getActivatedUsers()
@@ -59,5 +63,24 @@ class UserController extends CommonController
         $user->role_id = request()->role_id;
         $user->save();
         return $user->id;
+    }
+
+    public function getCurrentUser()
+    {
+        $user = \App\User::with(['role.permissions'])->where('users.id', Auth::user()->id)->first();
+
+        //this is code for convert to std class
+        $user = json_encode($user);
+        $user = json_decode($user);
+
+        if($user->is_super_admin == 1) {
+            // all permissions
+            $user->role = [
+                'name' => 'Super Admin',
+                'permissions' => \App\Permission::all(),
+            ];
+        }
+
+        return response()->json($user);
     }
 }

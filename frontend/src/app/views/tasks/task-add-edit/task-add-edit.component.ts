@@ -46,7 +46,7 @@ export class TaskAddEditComponent extends CommonAddEdit {
       task_description: data['task_description'],
       due_date: moment(data['due_date'] + ' UTC').toDate(),
       //due_date: new Date(data['due_date']),
-      assigned_to: [data['assigned_to']+""],
+      assigned_to: [data['assigned_to']['id']+""],
     });
   }
 

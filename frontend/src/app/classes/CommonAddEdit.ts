@@ -48,6 +48,10 @@ export class CommonAddEdit implements OnInit
 
                 this.patchFormValues(data);
             })
+            .catch(() => {
+                this.router.navigate(['/' + this.url]);
+            })
+            
         }
 
         this.loading = false;

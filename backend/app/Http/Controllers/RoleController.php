@@ -44,6 +44,17 @@ class RoleController extends CommonController
         $this->saveData(null);
     }
 
+    public function edit($id)
+    {
+        $allowedRolesIds = Role::allowedRolesIds();
+
+        if(!in_array($id, $allowedRolesIds->toArray())) {
+            abort(403, 'You are not allowed to edit this role');
+        }
+
+        parent::edit($id);
+    }
+
     public function updateData($id)
     {
         $allowedRolesIds = Role::allowedRolesIds();

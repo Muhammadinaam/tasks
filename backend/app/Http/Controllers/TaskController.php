@@ -38,12 +38,41 @@ class TaskController extends CommonController
 
     public function storeData()
     {
-        $this->saveData(null);
+        return $this->saveData(null);
+    }
+
+    public function edit($id)
+    {
+        $this->abortIfUserDontHaveAccessToTask($id);
+        return parent::edit($id);
     }
 
     public function updateData($id)
     {
-        $this->saveData($id);
+        $this->abortIfUserDontHaveAccessToTask($id);
+        return $this->saveData($id);
+    }
+
+    private function abortIfUserDontHaveAccessToTask($id)
+    {
+        if(Auth::user()->is_super_admin == 1)
+        {
+            return true;
+        }
+
+        $task = \App\Task::find($id);
+        if(Auth::user()->id == $task->assignedBy->id)
+        {
+            return true;
+        }
+
+        abort(403, 'You are not allowed to edit/delete this task');
+    }
+
+    public function destroy($id)
+    {
+        $this->abortIfUserDontHaveAccessToTask($id);
+        return parent::destroy($id);
     }
 
     public function saveData($id)

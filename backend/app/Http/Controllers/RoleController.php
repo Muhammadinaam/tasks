@@ -41,29 +41,34 @@ class RoleController extends CommonController
 
     public function storeData()
     {
-        $this->saveData(null);
+        return $this->saveData(null);
     }
 
     public function edit($id)
     {
-        $allowedRolesIds = Role::allowedRolesIds();
-
-        if(!in_array($id, $allowedRolesIds->toArray())) {
-            abort(403, 'You are not allowed to edit this role');
-        }
-
+        $this->abortIfUserDontHaveAccessToRole($id);
         return parent::edit($id);
     }
 
     public function updateData($id)
     {
+        $this->abortIfUserDontHaveAccessToRole($id);
+        return $this->saveData($id);
+    }
+
+    private function abortIfUserDontHaveAccessToRole($id)
+    {
         $allowedRolesIds = Role::allowedRolesIds();
 
         if(!in_array($id, $allowedRolesIds->toArray())) {
-            abort(403, 'You are not allowed to edit this role');
+            abort(403, 'You are not allowed to edit/delete this role');
         }
+    }
 
-        $this->saveData($id);
+    public function destroy($id)
+    {
+        $this->abortIfUserDontHaveAccessToRole($id);
+        return parent::destroy($id);
     }
 
     public function saveData($id)

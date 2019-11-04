@@ -26,7 +26,6 @@
                             <td>{{ row.assigned_by.name }}</td>
                             <td>{{ row.task_status.name }}</td>
                             <td>
-                                {{ currentUser.is_super_admin }}
                                 <button class="btn btn-info btn-sm" (click)="edit(row.id)">Edit</button>
                                 <button class="btn btn-danger btn-sm" (click)="delete(row.id)">Delete</button>
                             </td>

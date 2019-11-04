@@ -41,12 +41,41 @@ class UserController extends CommonController
 
     public function storeData()
     {
-        $this->saveData(null);
+        return $this->saveData(null);
+    }
+
+    public function edit($id)
+    {
+        $this->abortIfUserDontHaveAccessToUser($id);
+        return parent::edit($id);
     }
 
     public function updateData($id)
     {
-        $this->saveData($id);
+        $this->abortIfUserDontHaveAccessToUser($id);
+        return $this->saveData($id);
+    }
+
+    private function abortIfUserDontHaveAccessToUser($id)
+    {
+        if(Auth::user()->is_super_admin == 1)
+        {
+            return true;
+        }
+
+        $user = \App\User::find($id);
+        if($user->is_super_admin == 0 && Auth::user()->role->level >= $user->role->level)
+        {
+            return true;
+        }
+
+        abort(403, 'You are not allowed to edit/delete this user');
+    }
+
+    public function destroy($id)
+    {
+        $this->abortIfUserDontHaveAccessToUser($id);
+        return parent::destroy($id);
     }
 
     public function saveData($id)

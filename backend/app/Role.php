@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Auth;
 use DB;
 
-class Role extends Model
+class Role extends CommonModel
 {
     public function permissions()
     {

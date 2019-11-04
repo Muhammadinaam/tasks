@@ -7,13 +7,7 @@
   
         <div class="row">
           <div *ngFor="let task of tasks.assigned_to_me_by_others" class="col-md-3">
-            <a [routerLink]="['/tasks/' + task.id ]" class="btn btn-danger btn-block text-left" >
-              <h5>{{task.task_description}}</h5>
-              <hr>
-              Due Date: <span class="badge badge-info">{{ task.due_date }}</span> <br> 
-              Assigned By: {{ task.assigned_by.name }} <br>
-              Status: {{task.task_status.name}}
-            </a>
+            <app-task [task]="task"></app-task>
           </div>
         </div>
   
@@ -26,13 +20,7 @@
   
         <div class="row">
           <div *ngFor="let task of tasks.assigned_by_me_to_others" class="col-md-3">
-            <a [routerLink]="['/tasks/' + task.id ]" class="btn btn-success btn-block text-left" >
-              <h5>{{task.task_description}}</h5>
-              <hr>
-              Due Date: <span class="badge badge-info">{{ task.due_date }}</span> <br> 
-              Assigned To: {{ task.assigned_to.name }} <br>
-              Status: {{task.task_status.name}}
-            </a>
+            <app-task [task]="task"></app-task>
           </div>
         </div>
   

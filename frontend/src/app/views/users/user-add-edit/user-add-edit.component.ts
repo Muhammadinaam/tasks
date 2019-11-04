@@ -47,8 +47,8 @@ export class UserAddEditComponent extends CommonAddEdit {
         name: data['name'],
         email: data['email'],
         password: data['password'],
-        is_super_admin: data['is_super_admin'],
-        is_activated: data['is_activated'],
+        is_super_admin: data['is_super_admin'] == 1 ? true : false,
+        is_activated: data['is_activated'] == 1 ? true : false,
         role_id: data['role_id'],
     });
   }

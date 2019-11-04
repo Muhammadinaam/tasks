@@ -89,6 +89,12 @@ class UserController extends CommonController
         $user->is_super_admin = 
             request()->is_super_admin == 1 || request()->is_super_admin == true || request()->is_super_admin == 'true'
             ? 1 : 0;
+
+        if($user->is_super_admin == 0 && $user->role_id == '') 
+        {
+            throw new \Exception("Please select Role", 1);
+        }
+
         $user->role_id = request()->role_id;
         $user->save();
         return $user->id;

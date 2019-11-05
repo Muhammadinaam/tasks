@@ -1,22 +1,41 @@
-<button class="btn btn-danger btn-block text-left" (click)="taskModal.show()" >
-    <h5>{{task?.task_title}}</h5>
-    <hr>
-
-    <p>
-        {{task?.task_description}}
-    </p>
-
-    Due Date: <span class="badge badge-info">{{ task?.due_date + ' UTC' | date: 'dd-MMM-yyyy hh:mm a' }}</span> <br> 
-    Assigned By: {{ task?.assigned_by.name }} <br>
-    Status: {{task?.task_status.name}}
-</button>
+<div class="card shadow" (click)="showTaskModal()" style="margin-bottom: 10px; cursor: pointer;">
+    <div class="card-body">
+        <h5>{{task?.task_title}}</h5>
+        <hr>
+        <p>
+            {{task?.task_description}}
+        </p>
+        <br>
+        <table class="table table-sm">
+            <tr>
+                <td>Due Date:</td>
+                <td>
+                    <span class="badge badge-primary">{{ task?.due_date + ' UTC' | date: 'dd-MMM-yyyy' }}</span> <br>
+                    <span class="badge badge-primary">{{ task?.due_date + ' UTC' | date: 'hh:mm a' }}</span>
+                </td>
+            </tr>
+            <tr *ngIf="task?.assigned_to.name != currentUser?.name">
+                <td>Assigned To:</td>
+                <td>{{ task?.assigned_to.name }}</td>
+            </tr>
+            <tr *ngIf="task?.assigned_by.name != currentUser?.name">
+                <td>Assigned By:</td>
+                <td>{{ task?.assigned_by.name }}</td>
+            </tr>
+            <tr *ngIf="task?.task_status?.idt == 'review'">
+                <td>Status:</td>
+                <td class="bg-danger">{{ task?.task_status?.name }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
 
 <div bsModal #taskModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Task</h4>
-            <button type="button" class="close" (click)="taskModal.hide()" aria-label="Close">
+            <button type="button" class="close" (click)="closeTaskModal()" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
             </div>
@@ -66,7 +85,7 @@
 
             </div>
             <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="taskModal.hide()">Close</button>
+                <button type="button" class="btn btn-secondary" (click)="closeTaskModal()">Close</button>
             </div> -->
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

@@ -31,15 +31,16 @@ export class AuthService {
         alert(error.error.message);
       });
 
-    await this.http.get( ServerInfo.Url + '/api/get-current-user').toPromise()
-      .then(data => {
-        this.currentUser = data;
-      })
+    await this.getCurrentUser();
 
     this.router.navigate(['/dashboard']);
   }
 
   public async getCurrentUser() {
+
+    if(this.currentUser != null)
+      return this.currentUser;
+
     await this.http.get( ServerInfo.Url + '/api/get-current-user').toPromise()
       .then(data => {
         this.currentUser = data;
@@ -51,6 +52,7 @@ export class AuthService {
   logout() {
     localStorage.clear();
     this.router.navigate(['/login']);
+    this.currentUser = null;
   }
 
   public getToken(): string {

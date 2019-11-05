@@ -12,7 +12,7 @@ class DashboardController extends Controller
     public function dashboardTasks()
     {
         $hidden_task_statuses = TaskStatus::
-            whereIn('idt', ['cancelled', 'completed', 'completed_and_approved'])
+            whereIn('idt', ['cancelled', 'completed_and_approved'])
             ->get()
             ->pluck('id');
 

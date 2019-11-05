@@ -96,4 +96,26 @@ class TaskController extends CommonController
         $task->save();
         return $task->id;
     }
+
+    public function getAllTaskStatuses()
+    {
+        return \App\TaskStatus::get();
+    }
+
+    public function changeTaskStatus()
+    {
+        $task_id = request()->task_id;
+        $status_idt = request()->status_idt;
+
+        $status = \App\TaskStatus::where('idt', $status_idt)->first();
+
+        \App\Task::where('id', $task_id)->update([
+            'task_status_id' => $status->id,
+        ]);
+
+        return [
+            'success' => true,
+            'message' => 'Status changed successfully'
+        ];
+    }
 }

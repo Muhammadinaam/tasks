@@ -59,14 +59,17 @@
                                 Status: {{task?.task_status.name}}
 
                                 <hr>
-
                                 <div class="form-group">
                                     <label for="">Change Status</label>
-                                    <select class="form-control">
-                                        <option></option>
+                                    <select #statusIdt class="form-control">
+                                        <option *ngFor="let allowedTaskStatus of allowedTaskStatuses" 
+                                            [selected]="allowedTaskStatus.idt == task?.task_status.idt"
+                                            value="{{allowedTaskStatus.idt}}">
+                                                {{allowedTaskStatus.name}}
+                                        </option>
                                     </select>
                                 </div>
-                                <button class="btn btn-primary">Change Status</button>
+                                <button class="btn btn-sm btn-primary" (click)="changeStatus(task.id, statusIdt.value)">Change Status</button>
 
                             </div>
                         </div>
@@ -77,6 +80,15 @@
                             <div class="card-header">Comments</div>
                             <div class="card-body">
         
+                                
+                                <div class="form-group">
+                                    <textarea #taskComment class="form-control" rows="3"></textarea>
+                                </div>
+                                <button (click)="postComment(task.id, taskComment.value)" class="btn btn-sm btn-block btn-primary">
+                                    <i class="fa fa-send"></i>
+                                    Post Comment
+                                </button>
+
                             </div>
                         </div>
                     </div>

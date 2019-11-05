@@ -46,6 +46,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   taskModalOpenedClosed(eventType) {
     this.isRefreshIntervalStopped = eventType == 'opened';
+
+    if(eventType == 'closed') {
+      this.refreshTasks();
+    }
   }
   
 }

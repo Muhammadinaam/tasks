@@ -21,6 +21,10 @@ Route::middleware('auth:api')->group(function(){
 
     Route::resource('tasks', 'TaskController');
     Route::post('tasks-datatable', 'TaskController@dataTable');
+    Route::get('get-all-task-statuses', 'TaskController@getAllTaskStatuses');
+    Route::post('change-task-status', 'TaskController@changeTaskStatus');
+
+    Route::resource('task-comments', 'TaskCommentController');
 
     Route::resource('roles', 'RoleController');
     Route::post('roles-datatable', 'RoleController@dataTable');

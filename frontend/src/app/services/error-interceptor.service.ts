@@ -30,7 +30,11 @@ export class ErrorInterceptorService implements HttpInterceptor {
           });
           alert(message);
           return throwError(error);
-        } else {
+        } else if(error.status === 404) {
+          alert('404 - Not found');
+          return throwError(error);
+        }
+        else {
           alert(error.error.message);
           return throwError(error);
         }

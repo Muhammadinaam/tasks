@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import {ModalDirective} from 'ngx-bootstrap/modal';
 import { AuthService } from '../../../services/auth.service';
+import { TaskService } from '../../tasks/services/task.service';
 
 @Component({
   selector: 'app-task',
@@ -13,11 +14,44 @@ export class TaskComponent implements OnInit {
   @Output() taskModalOpenedClosed: EventEmitter<any> = new EventEmitter();
   @ViewChild('taskModal', {static: false}) public taskModal: ModalDirective;
   currentUser;
+  allTaskStatuses;
+  allowedTaskStatuses:Array<any>;
 
-  constructor(public auth: AuthService) { }
+  constructor(public auth: AuthService, public taskService: TaskService) { }
 
   async ngOnInit() {
     this.currentUser = await this.auth.getCurrentUser();
+    this.allTaskStatuses = await this.taskService.getAllTaskStatuses();
+
+    this.setAllowedTaskStatuses();
+  }
+
+  setAllowedTaskStatuses(): void {
+    let allowedTaskStatusesIdts = [];
+    if(this.task.assigned_by.id == this.currentUser.id) {
+      allowedTaskStatusesIdts = [
+        'assigned',
+        'review',
+        'cancelled',
+        'completed',
+        'completed_and_approved'
+      ];
+    } else {
+      allowedTaskStatusesIdts = [
+        'assigned',
+        'review',
+        'completed'
+      ];
+    }
+
+    this.allowedTaskStatuses = [];
+    this.allTaskStatuses.forEach(taskStatus => {
+      allowedTaskStatusesIdts.forEach(allowedTaskStatuseIdt => {
+        if(allowedTaskStatuseIdt == taskStatus.idt) {
+          this.allowedTaskStatuses.push(taskStatus);
+        }
+      });
+    });
   }
 
   showTaskModal() {
@@ -30,4 +64,16 @@ export class TaskComponent implements OnInit {
     this.taskModal.hide();
   }
 
+  changeStatus(taskId, statusIdt) {
+    this.taskService.changeStatus(taskId, statusIdt)
+      .subscribe(data => {
+        alert(data['message']);
+      })
+  }
+
+  postComment(taskId, taskComment) {
+    this.taskService.postComment(taskId, taskComment)
+    .subscribe(data => {
+    })
+  }
 }

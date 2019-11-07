@@ -8,6 +8,14 @@
         <br>
         <table class="table table-sm">
             <tr>
+                <td>Due In:</td>
+                <td>
+                    <span class="badge {{ dueIn?.days() < 2 ? 'badge-danger' : 'badge-success' }}">
+                        {{ dueIn?.humanize(true) }}
+                    </span>
+                </td>
+            </tr>
+            <tr>
                 <td>Due Date:</td>
                 <td>
                     <span class="badge badge-primary">{{ task?.due_date + ' UTC' | date: 'dd-MMM-yyyy' }}</span> <br>

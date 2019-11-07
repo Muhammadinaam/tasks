@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angu
 import {ModalDirective} from 'ngx-bootstrap/modal';
 import { AuthService } from '../../../services/auth.service';
 import { TaskService } from '../../tasks/services/task.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-task',
@@ -16,6 +17,7 @@ export class TaskComponent implements OnInit {
   currentUser;
   allTaskStatuses;
   allowedTaskStatuses:Array<any>;
+  dueIn;
 
   constructor(public auth: AuthService, public taskService: TaskService) { }
 
@@ -24,6 +26,9 @@ export class TaskComponent implements OnInit {
     this.allTaskStatuses = await this.taskService.getAllTaskStatuses();
 
     this.setAllowedTaskStatuses();
+
+    let currentTime = moment();
+    this.dueIn = moment.duration( moment(this.task.due_date + ' UTC').diff(currentTime) );
   }
 
   setAllowedTaskStatuses(): void {

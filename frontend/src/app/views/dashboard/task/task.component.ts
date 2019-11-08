@@ -33,6 +33,15 @@ export class TaskComponent implements OnInit {
 
     let currentTime = moment();
     this.dueIn = moment.duration( moment(this.task.due_date + ' UTC').diff(currentTime) );
+
+    this.unreadComments = this.task.task_comments.length;
+    this.task.task_comments.forEach(comment => {
+      comment.task_comment_reads.forEach(comment_reads => {
+        if(comment_reads.read_by == this.currentUser.id) {
+          this.unreadComments--;
+        }
+      });
+    });
   }
 
   setAllowedTaskStatuses(): void {
@@ -75,7 +84,11 @@ export class TaskComponent implements OnInit {
   }
 
   updateCommentsReads() {
-    this.http.post(ServerInfo.Url + '/api/update-comments-reads', { task_id : this.task.id })
+    let data = {
+      task_id: this.task.id,
+      comments: this.task.task_comments
+    };
+    this.http.post(ServerInfo.Url + '/api/update-comments-reads', data)
       .subscribe(data => {
 
       });

@@ -26,6 +26,7 @@ class TaskCommentController extends Controller
 
     public function updateCommentsReads()
     {
+        $comments = request()->comments;
         $task_id = request()->task_id;
         $user_id = Auth::user()->id;
 
@@ -36,9 +37,9 @@ class TaskCommentController extends Controller
                 $task_comment->taskCommentReads()->where('read_by', $user_id)->delete();
             }
 
-            foreach($task->taskComments as $task_comment) {
+            foreach($comments as $task_comment) {
                 $task_comment_read = new \App\TaskCommentRead();
-                $task_comment_read->comment_id = $task_comment->id;
+                $task_comment_read->comment_id = $task_comment['id'];
                 $task_comment_read->read_by = $user_id;
                 $task_comment_read->save();
             }
@@ -46,9 +47,9 @@ class TaskCommentController extends Controller
             \DB::commit();
             return ['success' => true];
         } catch (\Exception $ex) {
-            //throw $ex;
+            throw $ex;
             \DB::rollBack();
-            ['success' => false, 'ex' => $ex];
+            return ['success' => false, 'ex' => $ex];
         }
 
         

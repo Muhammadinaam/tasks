@@ -1,5 +1,11 @@
 <div class="card shadow" (click)="showTaskModal()" style="margin-bottom: 10px; cursor: pointer;">
+
     <div class="card-body">
+
+            <span *ngIf="unreadComments > 0" style="position: absolute; top: -8px; right: 0;" class="badge badge-danger">
+                {{unreadComments}} Comments
+            </span>
+
         <h5>{{task?.task_title}}</h5>
         <hr>
         <p>
@@ -87,12 +93,21 @@
                         <div class="card">
                             <div class="card-header">Comments</div>
                             <div class="card-body">
-        
-                                
-                                <div class="form-group">
-                                    <textarea #taskComment class="form-control" rows="3"></textarea>
+
+                                <div class="comments-holder" #scrollable>
+                                    <div 
+                                        class="col-md-10 {{ comment.created_by.id == currentUser?.id ? 'offset-md-2' : '' }} alert alert-info p-1" 
+                                        *ngFor="let comment of task.task_comments">
+                                            {{comment.comment}} <br>
+                                        <span *ngIf="comment.created_by.id != currentUser?.id" class="badge badge-info">{{comment.created_by.name}}</span>
+                                    </div>
                                 </div>
-                                <button (click)="postComment(task.id, taskComment.value)" class="btn btn-sm btn-block btn-primary">
+        
+                                <br>
+                                <div class="form-group">
+                                    <textarea [(ngModel)]="new_comment" class="form-control" rows="3"></textarea>
+                                </div>
+                                <button (click)="postComment(task.id)" class="btn btn-sm btn-block btn-primary">
                                     <i class="fa fa-send"></i>
                                     Post Comment
                                 </button>

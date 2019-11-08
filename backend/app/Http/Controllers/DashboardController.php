@@ -17,12 +17,12 @@ class DashboardController extends Controller
             ->pluck('id');
 
         $assigned_to_me_by_others = 
-            Task::with(['assignedTo', 'assignedBy', 'taskStatus'])
+            Task::with(['assignedTo', 'assignedBy', 'taskStatus', 'taskComments.taskCommentReads', 'taskComments.createdBy'])
             ->where('assigned_to', Auth::user()->id)
             ->whereNotIn('task_status_id', $hidden_task_statuses)
             ->orderBy('due_date', 'asc')->get();
         $assigned_by_me_to_others = 
-            Task::with(['assignedTo', 'assignedBy', 'taskStatus'])
+            Task::with(['assignedTo', 'assignedBy', 'taskStatus', 'taskComments.taskCommentReads', 'taskComments.createdBy'])
             ->where('assigned_by', Auth::user()->id)
             ->where('assigned_to', '<>', Auth::user()->id)
             ->whereNotIn('task_status_id', $hidden_task_statuses)

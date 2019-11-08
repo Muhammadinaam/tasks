@@ -11,7 +11,7 @@
               <div class="card-header">Pending</div>
               <div class="card-body">
                 <div class="row">
-                  <div *ngFor="let task of tasks.assigned_to_me_by_others" class="col-md-3">
+                  <div *ngFor="let task of tasks.assigned_to_me_by_others" class="col-md-4">
                     <app-task *ngIf="task.task_status.idt != 'completed'" [task]="task" (taskModalOpenedClosed)="taskModalOpenedClosed($event)"></app-task>
                   </div>
                 </div>
@@ -36,7 +36,7 @@
       <div class="body p-2">
   
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-12">
             <div class="card">
               <div class="card-header">Pending</div>
               <div class="card-body">
@@ -48,12 +48,12 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-12">
             <div class="card">
               <div class="card-header">Completed</div>
               <div class="card-body">
                 <div class="row">
-                  <div *ngFor="let task of tasks.assigned_by_me_to_others" class="col-md-12">
+                  <div *ngFor="let task of tasks.assigned_by_me_to_others" class="col-md-4">
                     <app-task *ngIf="task.task_status.idt == 'completed'" [task]="task" (taskModalOpenedClosed)="taskModalOpenedClosed($event)"></app-task>
                   </div>
                 </div>

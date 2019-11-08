@@ -24,6 +24,7 @@ export class TaskAddEditComponent extends CommonAddEdit {
     public activatedRoute: ActivatedRoute,
     public auth: AuthService) { 
       super(http, router, activatedRoute, 'tasks', auth);
+      this.backUrl = 'dashboard';
     }
 
   async initMainForm() {

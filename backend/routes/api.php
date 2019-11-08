@@ -25,6 +25,7 @@ Route::middleware('auth:api')->group(function(){
     Route::post('change-task-status', 'TaskController@changeTaskStatus');
 
     Route::resource('task-comments', 'TaskCommentController');
+    Route::post('update-comments-reads', 'TaskCommentController@updateCommentsReads');
 
     Route::resource('roles', 'RoleController');
     Route::post('roles-datatable', 'RoleController@dataTable');

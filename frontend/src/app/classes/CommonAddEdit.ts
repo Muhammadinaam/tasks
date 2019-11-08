@@ -13,6 +13,7 @@ export class CommonAddEdit implements OnInit
     url:string;
     auth: any;
     currentUser: any;
+    backUrl: any = null;
     
     constructor(_http, _router, _activatedRoute, _url, _auth) {
         this.http = _http;
@@ -73,7 +74,8 @@ export class CommonAddEdit implements OnInit
           alert(data['message']);
     
           if(data['success']) {
-            this.router.navigate(['/' + this.url]);
+            let backUrl = this.backUrl == null ? this.url : this.backUrl;
+            this.router.navigate(['/' + backUrl]);
           }
         }).add(() => this.loading = false);
     }

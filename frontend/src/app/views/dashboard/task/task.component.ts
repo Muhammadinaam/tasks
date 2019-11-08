@@ -3,6 +3,8 @@ import {ModalDirective} from 'ngx-bootstrap/modal';
 import { AuthService } from '../../../services/auth.service';
 import { TaskService } from '../../tasks/services/task.service';
 import * as moment from 'moment';
+import { HttpClient } from '@angular/common/http';
+import { ServerInfo } from '../../../classes/ServerInfo';
 
 @Component({
   selector: 'app-task',
@@ -18,8 +20,10 @@ export class TaskComponent implements OnInit {
   allTaskStatuses;
   allowedTaskStatuses:Array<any>;
   dueIn;
+  new_comment="";
+  unreadComments = 0;
 
-  constructor(public auth: AuthService, public taskService: TaskService) { }
+  constructor(public auth: AuthService, public taskService: TaskService, public http: HttpClient) { }
 
   async ngOnInit() {
     this.currentUser = await this.auth.getCurrentUser();
@@ -67,6 +71,14 @@ export class TaskComponent implements OnInit {
   closeTaskModal() {
     this.taskModalOpenedClosed.emit('closed');
     this.taskModal.hide();
+    this.updateCommentsReads();
+  }
+
+  updateCommentsReads() {
+    this.http.post(ServerInfo.Url + '/api/update-comments-reads', { task_id : this.task.id })
+      .subscribe(data => {
+
+      });
   }
 
   changeStatus(taskId, statusIdt) {
@@ -76,9 +88,18 @@ export class TaskComponent implements OnInit {
       })
   }
 
-  postComment(taskId, taskComment) {
-    this.taskService.postComment(taskId, taskComment)
+  postComment(taskId) {
+    this.taskService.postComment(taskId, this.new_comment)
     .subscribe(data => {
+      this.task['task_comments'].push({
+        task_id: this.task.id,
+        comment: this.new_comment,
+        created_by: {
+          id: this.currentUser.id,
+          name: this.currentUser.name
+        }
+      });
+      this.new_comment = '';
     })
   }
 }

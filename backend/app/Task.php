@@ -22,4 +22,9 @@ class Task extends CommonModel
     {
         return $this->belongsTo('\App\TaskStatus', 'task_status_id');
     }
+
+    public function taskComments()
+    {
+        return $this->hasMany('\App\TaskComment');
+    }
 }

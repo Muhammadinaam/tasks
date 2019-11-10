@@ -33,31 +33,6 @@
                 <app-field-validation [formGroupToValidate]="mainForm" controlName="password_confirmation"></app-field-validation>
             </div>
 
-            <div *ngIf="currentUser.is_super_admin == 1">
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" formControlName="is_super_admin">
-                    Is Super Admin
-                  </label>
-                </div>
-                <br><br>
-            </div>
-
-            <div *ngIf="mainForm.get('is_super_admin').value != true" class="form-group">
-              <label for="">Role</label>
-              <select class="form-control" formControlName="role_id">
-                <option *ngFor="let role of allowedRoles" value="{{role.id}}">{{role.name}}</option>
-              </select>
-            </div>
-
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" formControlName="is_activated">
-                    Is Activated
-                </label>
-            </div>
-            <br><br>
-
             <div class="text-right">
                 <button class="btn btn-primary" [disabled]="loading || !mainForm.valid">
                     <i class="fa fa-save"></i> Save

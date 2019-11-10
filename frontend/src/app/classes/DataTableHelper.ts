@@ -20,6 +20,13 @@ export class DataTableHelper
                   recordsFiltered: resp.recordsFiltered,
                   data: []
                 });
+              }, error => {
+                //obj.router.navigate(['dashboard']);
+                callback({
+                  recordsTotal: 0,
+                  recordsFiltered: 0,
+                  data: []
+                });
               });
           },
           columns: tableColumns

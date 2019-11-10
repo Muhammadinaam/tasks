@@ -36,6 +36,7 @@ Route::middleware('auth:api')->group(function(){
     Route::post('users-datatable', 'UserController@dataTable');
     Route::get('get-activated-users', 'UserController@getActivatedUsers');
     Route::get('get-current-user', 'UserController@getCurrentUser');
+    Route::post('update-profile', 'UserController@updateProfile');
 
     Route::get('dashboard-tasks', 'DashboardController@dashboardTasks');
 

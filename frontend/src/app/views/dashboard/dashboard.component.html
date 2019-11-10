@@ -18,10 +18,20 @@
               </div>
             </div>
           </div>
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">Completed</div>
+              <div class="card-body">
+                <div class="row">
+                  <div *ngFor="let task of tasks.assigned_to_me_by_others" class="col-md-4">
+                    <app-task *ngIf="task.task_status.idt == 'completed'" [task]="task" (taskModalOpenedClosed)="taskModalOpenedClosed($event)"></app-task>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-
-  
       </div>
     </div>
   
@@ -61,11 +71,45 @@
             </div>
           </div>
         </div>
-
-
   
       </div>
     </div>
+
+
+    <div *ngIf="tasks.other_users_tasks.length > 0" class="card">
+      <div class="card-header">Other Users Tasks</div>
+      <div class="body p-2">
+  
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">Pending</div>
+              <div class="card-body">
+                <div class="row">
+                  <div *ngFor="let task of tasks.other_users_tasks" class="col-md-4">
+                    <app-task *ngIf="task.task_status.idt != 'completed'" [task]="task" (taskModalOpenedClosed)="taskModalOpenedClosed($event)"></app-task>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">Completed</div>
+              <div class="card-body">
+                <div class="row">
+                  <div *ngFor="let task of tasks.other_users_tasks" class="col-md-4">
+                    <app-task *ngIf="task.task_status.idt == 'completed'" [task]="task" (taskModalOpenedClosed)="taskModalOpenedClosed($event)"></app-task>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
 </div>

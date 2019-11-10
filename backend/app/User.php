@@ -68,6 +68,10 @@ class User extends Authenticatable
     {
         if(!$this->hasPermission($idt))
         {
+            if (strpos($idt, 'list') !== false) 
+            {
+                abort(403, 'You do not have permission to view this list');
+            }
             abort(403, 'You do not have permission to perform this operation');
         }
     }

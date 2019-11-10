@@ -25,6 +25,8 @@ class UserController extends CommonController
 
     public function dataTable()
     {
+        Auth::user()->abortIfDontHavePermission('users_list');
+
         $data = User::with('role')->select('users.*');
 
         return DataTables::eloquent($data)->toJson();
@@ -75,7 +77,31 @@ class UserController extends CommonController
     public function destroy($id)
     {
         $this->abortIfUserDontHaveAccessToUser($id);
+
+        if($id == Auth::user()->id) {
+            throw new \Exception("You cannot delete your account", 1);
+        }
+
         return parent::destroy($id);
+    }
+
+    public function updateProfile()
+    {
+        $this->validate(request(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . Auth::user()->id,
+            'password' => 'confirmed',
+        ]);
+
+        $user = User::find(Auth::user()->id);
+        $user->name = request()->name;
+        $user->email = request()->email;
+        if(request()->password != null && request()->password != '') {
+            $user->password = Hash::make(request()->password);
+        }
+
+        $user->save();
+        return ['success' => true, 'message' => 'Saved Successfully'];
     }
 
     public function saveData($id)

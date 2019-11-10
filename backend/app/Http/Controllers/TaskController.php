@@ -15,6 +15,8 @@ class TaskController extends CommonController
 
     public function dataTable()
     {
+        Auth::user()->abortIfDontHavePermission('tasks_list');
+
         $tasks = Task::with(['assignedTo', 'assignedBy', 'taskStatus'])
             ->select('tasks.*');
 

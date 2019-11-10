@@ -22,18 +22,21 @@ export class AuthService {
       'scope': '',
     };
 
+    let isLoginSuccessful = false;
     await this.http.post(ServerInfo.Url + "/oauth/token", data).toPromise()
       .then(data => {
         localStorage.setItem("access_token", data['access_token']);
         localStorage.setItem("token_expiry", (moment.now() / 1000 + +data['expires_in']).toString() );
+        isLoginSuccessful = true;
         
       }).catch(error => {
         alert(error.error.message);
       });
 
-    await this.getCurrentUser();
-
-    this.router.navigate(['/dashboard']);
+    if(isLoginSuccessful) {
+      await this.getCurrentUser();
+      this.router.navigate(['/dashboard']);
+    }
   }
 
   public async getCurrentUser() {

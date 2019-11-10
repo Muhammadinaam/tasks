@@ -21,6 +21,8 @@ class RoleController extends CommonController
 
     public function dataTable()
     {
+        Auth::user()->abortIfDontHavePermission('roles_list');
+
         $data = Role::select('roles.*');
 
         return DataTables::eloquent($data)->toJson();

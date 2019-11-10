@@ -16,18 +16,31 @@ class DashboardController extends Controller
             ->get()
             ->pluck('id');
 
-        $assigned_to_me_by_others = 
-            Task::with(['assignedTo', 'assignedBy', 'taskStatus', 'taskComments.taskCommentReads', 'taskComments.createdBy'])
-            ->where('assigned_to', Auth::user()->id)
+        $common_query = Task::with(['assignedTo', 'assignedBy', 'taskStatus', 'taskComments.taskCommentReads', 'taskComments.createdBy'])
             ->whereNotIn('task_status_id', $hidden_task_statuses)
-            ->orderBy('due_date', 'asc')->get();
+            ->orderBy('due_date', 'asc');
+
+        $assigned_to_me_by_others = 
+            (clone $common_query)
+            ->where('assigned_to', Auth::user()->id)
+            ->get();
         $assigned_by_me_to_others = 
-            Task::with(['assignedTo', 'assignedBy', 'taskStatus', 'taskComments.taskCommentReads', 'taskComments.createdBy'])
+            (clone $common_query)
             ->where('assigned_by', Auth::user()->id)
             ->where('assigned_to', '<>', Auth::user()->id)
-            ->whereNotIn('task_status_id', $hidden_task_statuses)
-            ->orderBy('due_date', 'asc')->get();
+            ->get();
 
-        return compact('assigned_to_me_by_others', 'assigned_by_me_to_others');
+        $other_users_tasks = [];
+
+        if(Auth::user()->hasPermission('has_access_to_other_users_tasks'))
+        {
+            $other_users_tasks = 
+                (clone $common_query)
+                ->where('assigned_by', '<>', Auth::user()->id)
+                ->where('assigned_to', '<>', Auth::user()->id)
+                ->get();
+        }
+
+        return compact('assigned_to_me_by_others', 'assigned_by_me_to_others', 'other_users_tasks');
     }
 }

@@ -21,7 +21,7 @@ class TaskCommentController extends Controller
 
         $task_comment->save();
 
-        return ['success' => true, 'message' => 'Task Comment posted successfully'];
+        return ['success' => true, 'id' => $task_comment->id, 'message' => 'Task Comment posted successfully'];
     }
 
     public function updateCommentsReads()

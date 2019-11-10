@@ -102,9 +102,15 @@ export class TaskComponent implements OnInit {
   }
 
   postComment(taskId) {
+
+    if(this.new_comment == '') {
+      alert('Please enter comment');
+    }
+
     this.taskService.postComment(taskId, this.new_comment)
     .subscribe(data => {
       this.task['task_comments'].push({
+        id: data['id'],
         task_id: this.task.id,
         comment: this.new_comment,
         created_by: {

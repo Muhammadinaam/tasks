@@ -48,7 +48,13 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Task</h4>
+                <h4 class="modal-title">
+                    Task
+                    <button *ngIf="task?.assigned_by?.id == currentUser?.id" [routerLink]="['/tasks/' + task.id]" class="btn btn-sm btn-primary">
+                        <i class="fa fa-edit"></i>
+                        Edit
+                    </button>
+                </h4>
             <button type="button" class="close" (click)="closeTaskModal()" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -84,7 +90,7 @@
                                     </select>
                                 </div>
                                 <button class="btn btn-sm btn-primary" (click)="changeStatus(task.id, statusIdt.value)">Change Status</button>
-
+                                <button (click)="closeTaskModal()" class="btn btn-sm btn-danger">Close</button>
                             </div>
                         </div>
                     </div>
@@ -107,7 +113,7 @@
                                 <div class="form-group">
                                     <textarea [(ngModel)]="new_comment" class="form-control" rows="3"></textarea>
                                 </div>
-                                <button (click)="postComment(task.id)" class="btn btn-sm btn-block btn-primary">
+                                <button [disabled]="new_comment==''" (click)="postComment(task.id)" class="btn btn-sm btn-block btn-primary">
                                     <i class="fa fa-send"></i>
                                     Post Comment
                                 </button>

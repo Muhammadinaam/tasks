@@ -36,10 +36,6 @@
                 <td>Assigned By:</td>
                 <td>{{ task?.assigned_by.name }}</td>
             </tr>
-            <tr *ngIf="task?.task_status?.idt == 'review'">
-                <td>Status:</td>
-                <td class="bg-danger">{{ task?.task_status?.name }}</td>
-            </tr>
         </table>
     </div>
 </div>

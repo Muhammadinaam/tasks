@@ -8,7 +8,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="card">
-              <div class="card-header">Pending</div>
+              <div class="card-header bg-danger">Pending</div>
               <div class="card-body">
                 <div class="row">
                   <div *ngFor="let task of tasks.assigned_to_me_by_others" class="col-md-4">
@@ -20,7 +20,7 @@
           </div>
           <div class="col-md-12">
             <div class="card">
-              <div class="card-header">Completed</div>
+              <div class="card-header bg-primary">Completed</div>
               <div class="card-body">
                 <div class="row">
                   <div *ngFor="let task of tasks.assigned_to_me_by_others" class="col-md-4">
@@ -48,7 +48,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="card">
-              <div class="card-header">Pending</div>
+              <div class="card-header bg-danger">Pending</div>
               <div class="card-body">
                 <div class="row">
                   <div *ngFor="let task of tasks.assigned_by_me_to_others" class="col-md-4">
@@ -60,7 +60,7 @@
           </div>
           <div class="col-md-12">
             <div class="card">
-              <div class="card-header">Completed</div>
+              <div class="card-header bg-primary">Completed</div>
               <div class="card-body">
                 <div class="row">
                   <div *ngFor="let task of tasks.assigned_by_me_to_others" class="col-md-4">

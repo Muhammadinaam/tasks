@@ -49,7 +49,6 @@ export class TaskComponent implements OnInit {
     if(this.task.assigned_by.id == this.currentUser.id) {
       allowedTaskStatusesIdts = [
         'assigned',
-        'review',
         'cancelled',
         'completed',
         'completed_and_approved'
@@ -57,7 +56,6 @@ export class TaskComponent implements OnInit {
     } else {
       allowedTaskStatusesIdts = [
         'assigned',
-        'review',
         'completed'
       ];
     }

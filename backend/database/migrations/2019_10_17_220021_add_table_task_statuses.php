@@ -29,10 +29,6 @@ class AddTableTaskStatuses extends Migration
                     'name' => 'Assigned'
                 ],
                 [
-                    'idt' => 'review',
-                    'name' => 'Review'
-                ],
-                [
                     'idt' => 'cancelled',
                     'name' => 'Cancelled'
                 ],

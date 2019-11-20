@@ -9,6 +9,10 @@
 
 @import "~ng-pick-datetime/assets/style/picker.min.css";
 
+* {
+    font-size: 12px;
+}
+
 .no-data-available {
 text-align: center;
 }
